@@ -63,5 +63,24 @@ router.get('/customers/:id/orders', (req, res) => {
     });
 
 });
+router.get('/customers/:id/orders/:orderid/products', (req, res) => {
 
+    console.log(req.params)
+    https.get('https://615f5fb4f7254d0017068109.mockapi.io/api/v1/customers/' + req.params.id + '/orders/' + req.params.orderid + '/products', function (rep) {
+        var rawData = "";
+        rep.on('data', (chunk) => {
+            rawData += chunk;
+        });
+        rep.on('end', (plop) => {
+            try {
+                console.log(plop);
+                console.log(rawData);
+                res.send(rawData);
+            } catch (e) {
+                console.error(e.message);
+            }
+        });
+    });
+
+});
 module.exports = router;
