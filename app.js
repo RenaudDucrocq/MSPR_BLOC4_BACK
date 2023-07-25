@@ -5,9 +5,40 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var customersRouter = require('./routes/customers');
 
 var app = express();
+
+const swaggerDefinition = {
+    openapi: '3.0.0',
+    info: {
+        title: 'Express API for KAWA ERP',
+        version: '1.0.0',
+        description:
+            'This is a REST API application made with Express. It retrieves data from KAWA ERP.',
+        contact: {
+            name: '25 rue dépot Arras',
+            url: 'https://epsi.fr',
+        },
+    },
+    servers: [
+        {
+            url: 'http://localhost:3000',
+            description: 'Development server',
+        },
+    ],
+};
+
+const options = {
+    swaggerDefinition,
+    // Paths to files containing OpenAPI definitions
+    apis: ['./routes/*.js'],
+};
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerSpec = swaggerJSDoc(options);
+const swaggerUi = require('swagger-ui-express');
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +51,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/customers', customersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
