@@ -260,6 +260,64 @@ router.get('/:id/orders', (req, res) => {
   });
 
 });
+
+/**
+ * @swagger
+ * /customers/{id}/orders/{orderid}/products:
+ *   get:
+ *     summary: Get order's products
+ *     description: Retrieve a list of order's product from KAWA CRM.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Numeric ID of the customer to retrieve.
+ *         schema:
+ *           type: integer
+ *       - in: path
+ *         name: orderid
+ *         required: true
+ *         description: Numeric ID of the order to retrieve
+ *         schema:
+ *           type: integer
+ *     responses:
+ *      200:
+ *         description: Successful operation.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   createdAt:
+ *                     type: string
+ *                     example: 2023-02-19T21:15:11.180Z
+ *                   name:
+ *                     type: string
+ *                     example: Peter Crona
+ *                   details:
+ *                     type: object
+ *                     properties:
+ *                       price:
+ *                         type: string
+ *                         example: 85.00
+ *                       description:
+ *                         type: string
+ *                         example: The Football Is Good For Training And Recreational Purposes
+ *                       color:
+ *                         type: string
+ *                         example: green
+ *                   stock:
+ *                     type: integer
+ *                     example: 29758
+ *                   id:
+ *                     type: integer
+ *                     example: 7
+ *                   orderId:
+ *                     type: integer
+ *                     example: 7
+ */
 router.get('/:id/orders/:orderid/products', (req, res) => {
 
   https.get('https://615f5fb4f7254d0017068109.mockapi.io/api/v1/customers/' + req.params.id + '/orders/' + req.params.orderid + '/products', function (rep) {

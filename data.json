@@ -1,12 +1,26 @@
 [
   {
-    "createdAt": "2023-02-19T21:15:11.180Z",
+    "createdAt": "2023-02-20T00:25:44.329Z",
+    "name": "Peter Crona",
+    "details": {
+      "price": "85.00",
+      "description": "The Football Is Good For Training And Recreational Purposes",
+      "color": "green"
+    },
+    "stock": 29758,
     "id": "7",
-    "customerId": "7"
+    "orderId": "7"
   },
   {
-    "createdAt": "2023-02-19T14:36:25.139Z",
+    "createdAt": "2023-02-20T11:32:49.639Z",
+    "name": "Ivan Hauck",
+    "details": {
+      "price": "850.00",
+      "description": "The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J",
+      "color": "mint green"
+    },
+    "stock": 814,
     "id": "57",
-    "customerId": "7"
+    "orderId": "7"
   }
 ]
