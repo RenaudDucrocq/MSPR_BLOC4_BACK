@@ -6,6 +6,7 @@ let logger = require('morgan');
 let bodyParser = require("body-parser");
 const credential = require('./client-env.json');
 
+let authRouter = require('./routes/authGuard').router;
 let customersRouter = require('./routes/customers');
 
 let app = express();
@@ -61,6 +62,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/customers', customersRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

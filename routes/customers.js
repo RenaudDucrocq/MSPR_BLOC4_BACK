@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var {getClient} = require('../utils/connection-query');
+let checkToken = require('./authGuard').checkToken;
+
 
 /**
  * @swagger
@@ -96,6 +98,7 @@ var {getClient} = require('../utils/connection-query');
  */
 
 router.get('/', async (req, res) => {
+    await checkToken(JSON.parse(JSON.stringify(req.headers)), res);
     const client = await getClient();
     client.query('SELECT * FROM customers\n' +
         'inner JOIN address on customers.addressid = address.id\n' +
@@ -205,6 +208,7 @@ router.get('/', async (req, res) => {
  *                               example: 7
  */
 router.get('/:id', async (req, res) => {
+    await checkToken(JSON.parse(JSON.stringify(req.headers)), res);
     const id = parseInt(req.params.id);
     const client = await getClient();
     client.query('SELECT * FROM customers\n' +
@@ -257,6 +261,7 @@ router.get('/:id', async (req, res) => {
  *                     example: 7
  */
 router.get('/:id/orders', async (req, res) => {
+    await checkToken(JSON.parse(JSON.stringify(req.headers)), res);
     const id = parseInt(req.params.id);
     const client = await getClient();
     client.query('SELECT * FROM orders\n' +
@@ -332,13 +337,14 @@ router.get('/:id/orders', async (req, res) => {
  *                     example: 7
  */
 router.get('/:id/orders/:orderid/products', async (req, res) => {
+    await checkToken(JSON.parse(JSON.stringify(req.headers)), res);
     const id = parseInt(req.params.id);
     const orderid = parseInt(req.params.orderid);
     const client = await getClient();
     client.query('SELECT * FROM products\n' +
         'inner JOIN details on products.details_id = details.id\n' +
         'inner JOIN orders_products on orders_products.id_order = $2 and orders_products.id_product = products.id\n' +
-        'ORDER BY products.id ASC',[id] , async (error, results) => {
+        'ORDER BY products.id ASC',[id] ,[orderid] , async (error, results) => {
         await client.end();
         if (error) {
             res.status(404);
